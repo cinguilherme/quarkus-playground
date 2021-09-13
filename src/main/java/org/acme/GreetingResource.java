@@ -24,13 +24,13 @@ public class GreetingResource {
 
     private String sayHello() {
 
-        return String.format("The number is %d %s %s%s. Country information of %s with code: %d",
-                             greetingConfig.getNumber()
-                                           .orElse(1), greetingConfig.getPrefix(),
-                             greetingConfig.getName(), greetingConfig.getSuffix(),
-                             greetingConfig.getCountry()
-                                           .getName(), greetingConfig.getCountry()
-                                                                     .getId());
+        return String.format(
+                "The number is %d %s %s%s Country information of %s with code: %d",
+                greetingConfig.getNumber()
+                              .orElse(1), greetingConfig.getPrefix(), greetingConfig.getName(),
+                greetingConfig.getSuffix(), greetingConfig.getCountry()
+                                                          .getName(), greetingConfig.getCountry()
+                                                                                    .getId());
     }
 
     @GET
