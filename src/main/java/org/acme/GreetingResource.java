@@ -1,5 +1,8 @@
 package org.acme;
 
+import org.acme.config.GreetingConfig;
+
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,10 +13,24 @@ import javax.ws.rs.core.MediaType;
 @Path("/hello")
 public class GreetingResource {
 
+    @Inject
+    GreetingConfig greetingConfig;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
-        return "Hello RESTEasy";
+        return sayHello();
+    }
+
+    private String sayHello() {
+
+        return String.format("The number is %d %s %s%s. Country information of %s with code: %d",
+                             greetingConfig.getNumber()
+                                           .orElse(1), greetingConfig.getPrefix(),
+                             greetingConfig.getName(), greetingConfig.getSuffix(),
+                             greetingConfig.getCountry()
+                                           .getName(), greetingConfig.getCountry()
+                                                                     .getId());
     }
 
     @GET
