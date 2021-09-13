@@ -1,6 +1,8 @@
 package org.acme;
 
+import org.acme.config.Base64Value;
 import org.acme.config.GreetingConfig;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,6 +17,9 @@ public class GreetingResource {
 
     @Inject
     GreetingConfig greetingConfig;
+
+    @ConfigProperty(name = "greeting.base64name")
+    Base64Value name64;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
