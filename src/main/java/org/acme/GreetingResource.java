@@ -30,12 +30,13 @@ public class GreetingResource {
     private String sayHello() {
 
         return String.format(
-                "The number is %d %s %s%s Country information of %s with code: %d",
+                "The number is %d %s %s%s Country information of %s with code: %d. The base64 property is %s",
                 greetingConfig.getNumber()
                               .orElse(1), greetingConfig.getPrefix(), greetingConfig.getName(),
                 greetingConfig.getSuffix(), greetingConfig.getCountry()
                                                           .getName(), greetingConfig.getCountry()
-                                                                                    .getId());
+                                                                                    .getId(),
+                name64.getValue());
     }
 
     @GET
