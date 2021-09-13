@@ -1,7 +1,7 @@
 package org.acme.books.diplomat;
 
-import org.acme.books.db.models.Book;
-import org.acme.books.http.wire.BookDTO;
+import org.acme.books.diplomat.wire.BookDTO;
+import org.acme.books.domain.models.Book;
 
 public class BookDiplomat {
 

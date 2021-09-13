@@ -1,6 +1,6 @@
-package org.acme.books.db.repository;
+package org.acme.books.ports.repository;
 
-import org.acme.books.db.models.Book;
+import org.acme.books.domain.models.Book;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package org.acme.books.http.in;
+package org.acme.books.adapters.http.in;
 
 import org.acme.books.diplomat.BookDiplomat;
-import org.acme.books.http.wire.BookDTO;
-import org.acme.books.services.BookService;
+import org.acme.books.diplomat.wire.BookDTO;
+import org.acme.books.orchestrator.BooksOrchestratorService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,17 +14,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Path("/book")
-public class BookResource {
+public class BookHttpInResource {
 
     @Inject
-    BookService bookService;
+    BooksOrchestratorService booksOrchestratorService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<BookDTO> getBooks() {
-        return bookService.allBooks()
+        return booksOrchestratorService.allBooks()
                 .stream()
                 .map(BookDiplomat::fromBook)
                 .collect(Collectors.toList());
@@ -33,13 +34,17 @@ public class BookResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public BookDTO addBook(BookDTO newBook) {
-        return bookService.newBook(newBook);
+        return Stream.of(BookDiplomat.fromBookDTO(newBook))
+                .map(booksOrchestratorService::newBook)
+                .map(BookDiplomat::fromBook)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("unsable to save book"));
     }
 
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public BookDTO updateBook(@PathParam("id") Integer index, BookDTO book) {
-        return bookService.replaceBook(index, book);
+        return booksOrchestratorService.replaceBook(index, book);
     }
 }

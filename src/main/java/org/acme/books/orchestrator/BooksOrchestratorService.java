@@ -1,18 +1,17 @@
-package org.acme.books.services;
+package org.acme.books.orchestrator;
 
-import org.acme.books.db.models.Book;
-import org.acme.books.db.repository.BookRepository;
-import org.acme.books.http.wire.BookDTO;
+import org.acme.books.diplomat.wire.BookDTO;
+import org.acme.books.domain.models.Book;
+import org.acme.books.ports.repository.BookRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @ApplicationScoped
-public class BookService {
+public class BooksOrchestratorService {
 
     @Inject
     BookRepository bookRepository;
@@ -27,16 +26,11 @@ public class BookService {
         return null;
     }
 
-    public BookDTO newBook(final BookDTO book) {
-        final BookDTO newBook = book.toBuilder()
-                .id(UUID.randomUUID())
-                .build();
-
-        final Book newBookDB = new Book(book.getName(), book.getAuthor());
-        Book saved = bookRepository.save(newBookDB);
+    public Book newBook(final Book book) {
+        Book saved = bookRepository.save(book);
         System.out.println(saved);
 
-        return newBook;
+        return book;
     }
 
     public BookDTO replaceBook(Integer index, BookDTO book) {

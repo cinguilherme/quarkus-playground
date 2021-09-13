@@ -1,4 +1,4 @@
-package org.acme.books.db.models;
+package org.acme.books.domain.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package org.acme.books.http.wire;
+package org.acme.books.diplomat.wire;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
