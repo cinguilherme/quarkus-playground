@@ -1,6 +1,7 @@
 package org.acme.books.diplomat;
 
 import org.acme.books.diplomat.wire.BookDTO;
+import org.acme.books.domain.logic.BookLogicPresentation;
 import org.acme.books.domain.models.Book;
 
 public class BookDiplomat {
@@ -17,6 +18,7 @@ public class BookDiplomat {
         return BookDTO.builder()
                 .id(book.getId())
                 .author(book.getAuthor())
+                .presentableAuthor(BookLogicPresentation.authorInBookName.apply(book.getAuthor()))
                 .name(book.getName())
                 .build();
     }

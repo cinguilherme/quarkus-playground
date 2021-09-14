@@ -36,6 +36,12 @@ The application can be packaged using:
 ./mvnw package
 ```
 
+Create Docker image with packaged app
+
+```shell script
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/code-with-quarkus-jvm .
+```
+
 It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory. Be aware that it’s not an _über-jar_ as
 the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
