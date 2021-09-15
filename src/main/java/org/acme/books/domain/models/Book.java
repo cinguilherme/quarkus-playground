@@ -25,9 +25,9 @@ public class Book extends PanacheEntityBase implements Serializable {
     @Id
     @GeneratedValue
     public UUID id;
-
     public String name;
     public String author;
+
     public String coAuthor;
     public Long edition;
     public String publisher;

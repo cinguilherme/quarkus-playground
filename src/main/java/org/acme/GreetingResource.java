@@ -3,6 +3,7 @@ package org.acme;
 import org.acme.config.Base64Value;
 import org.acme.config.GreetingConfig;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,9 @@ import javax.ws.rs.core.MediaType;
 @Path("/hello")
 public class GreetingResource {
 
+    private final Logger LOGGER = Logger.getLogger(this.getClass()
+                                                       .getName());
+
     @Inject
     GreetingConfig greetingConfig;
 
@@ -24,6 +28,7 @@ public class GreetingResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
+        LOGGER.info("Accepted request on /hello and processed");
         return sayHello();
     }
 
