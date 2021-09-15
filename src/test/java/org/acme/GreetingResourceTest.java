@@ -12,10 +12,11 @@ public class GreetingResourceTest {
     @Test
     public void testHelloEndpoint() {
         given().when()
-               .get("/hello")
-               .then()
-               .statusCode(200)
-               .body(is("The number is 1 Mr. test_hello! Country information of br with code: 55"));
+                .get("/hello")
+                .then()
+                .statusCode(200)
+                .body(is(
+                        "The number is 1 Mr. test_hello! Country information of br with code: 55. The base64 property is hello"));
     }
 
 }

@@ -16,9 +16,6 @@ public class MigrationService {
         flyway.clean();
         flyway.migrate();
 
-        System.out.println(flyway.info()
-                                   .current()
-                                   .getVersion()
-                                   .toString());
+        System.out.println(flyway.info());
     }
 }
