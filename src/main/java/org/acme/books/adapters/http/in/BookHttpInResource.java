@@ -6,6 +6,7 @@ import org.acme.books.orchestrator.BooksOrchestratorService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -43,6 +44,7 @@ public class BookHttpInResource {
     }
 
     @POST
+    @Transactional
     public Response addBook(@Valid BookDTO newBook) {
         BookDTO book = Stream.of(BookDiplomat.fromBookDTO(newBook))
                              .map(booksOrchestratorService::newBook)
@@ -58,6 +60,7 @@ public class BookHttpInResource {
 
     @PUT
     @Path("/{id}")
+    @Transactional
     public Response updateBook(@PathParam("id") Integer index, BookDTO book) {
         BookDTO bookDTO = booksOrchestratorService.replaceBook(index, book);
         return Response.ok(bookDTO)

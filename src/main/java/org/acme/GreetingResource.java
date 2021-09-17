@@ -1,5 +1,6 @@
 package org.acme;
 
+import io.agroal.api.AgroalDataSource;
 import org.acme.config.Base64Value;
 import org.acme.config.GreetingConfig;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -12,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.SQLException;
 
 @Path("/hello")
 public class GreetingResource {
@@ -22,12 +24,24 @@ public class GreetingResource {
     @Inject
     GreetingConfig greetingConfig;
 
+    @Inject
+    AgroalDataSource dataSource;
+
     @ConfigProperty(name = "greeting.base64name")
     Base64Value name64;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
+        try {
+            boolean execute = dataSource.getConnection()
+                                        .prepareCall("select (1,2,3)")
+                                        .execute();
+            LOGGER.info(String.format("executed with result %s", execute));
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         LOGGER.info("Accepted request on /hello and processed");
         return sayHello();
     }

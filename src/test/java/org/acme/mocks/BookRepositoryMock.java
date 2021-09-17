@@ -1,6 +1,7 @@
 package org.acme.mocks;
 
 import io.quarkus.test.Mock;
+import org.acme.books.domain.models.Author;
 import org.acme.books.domain.models.Book;
 import org.acme.books.ports.repository.BookRepository;
 
@@ -41,9 +42,11 @@ public class BookRepositoryMock implements BookRepository {
     @Override
     public Iterable<Book> findAll() {
         return List.of(Book.builder()
-                               .name("LOTR")
-                               .author("Tolkein")
-                               .build());
+                           .name("LOTR")
+                           .author(Author.builder()
+                                         .firstName("Tolkein")
+                                         .build())
+                           .build());
     }
 
     @Override
