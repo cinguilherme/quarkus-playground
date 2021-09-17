@@ -7,6 +7,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,14 +30,29 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Indexed
 public class Author extends PanacheEntityBase {
 
+    @FullTextField(analyzer = "english")
+    @KeywordField(name = "firstName_sort",
+                  sortable = Sortable.YES,
+                  normalizer = "sort")
     String firstName;
+
+    @FullTextField(analyzer = "english")
+    @KeywordField(name = "lastName_sort",
+                  sortable = Sortable.YES,
+                  normalizer = "sort")
     String lastName;
+
     LocalDateTime birthDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true,
+
+    @OneToMany(cascade = CascadeType.ALL,
+               fetch = FetchType.EAGER,
+               orphanRemoval = true,
                mappedBy = "author")
+    @IndexedEmbedded
     private List<Book> listOfBooks;
 
     @Id

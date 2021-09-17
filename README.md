@@ -14,16 +14,22 @@ You can run your application in dev mode that enables live coding using:
 
 ## Start Containers
 
-- Local Config
+- Local Postgres Config
 
-```
+```bash
 docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 --name quarkus_test -e POSTGRES_USER=local -e POSTGRES_PASSWORD=local -e POSTGRES_DB=local-db -p 5432:5432 postgres:11.5
 ```
 
 - Testing Config
 
-```
+```bash
 docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 --name quarkus_test -e POSTGRES_USER=quarkus_test -e POSTGRES_PASSWORD=quarkus_test -e POSTGRES_DB=quarkus_test -p 5432:5432 postgres:11.5
+```
+
+- Local Elastic Search
+
+```bash
+docker run -d --name elasticsearch-quarkus -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.14.1
 ```
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.

@@ -1,10 +1,12 @@
 package org.acme.books.adapters.http.in;
 
+import io.quarkus.runtime.StartupEvent;
 import org.acme.books.diplomat.BookDiplomat;
 import org.acme.books.diplomat.wire.BookDTO;
 import org.acme.books.orchestrator.BooksOrchestratorService;
 import org.jboss.logging.Logger;
 
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -27,43 +29,51 @@ import java.util.stream.Stream;
 public class BookHttpInResource {
 
     private final Logger LOGGER = Logger.getLogger(this.getClass()
-                                                       .getName());
+                                                           .getName());
 
     @Inject
     BooksOrchestratorService booksOrchestratorService;
+
+    public void onStart(
+            @Observes
+                    StartupEvent startupEvent) {
+        
+    }
 
     @GET
     public Response getBooks() {
         LOGGER.info("Accepting getBooks request");
         List<BookDTO> dtoList = booksOrchestratorService.allBooks()
-                                                        .stream()
-                                                        .map(BookDiplomat::fromBook)
-                                                        .collect(Collectors.toList());
+                .stream()
+                .map(BookDiplomat::fromBook)
+                .collect(Collectors.toList());
         return Response.ok(dtoList)
-                       .build();
+                .build();
     }
 
     @POST
     @Transactional
     public Response addBook(@Valid BookDTO newBook) {
         BookDTO book = Stream.of(BookDiplomat.fromBookDTO(newBook))
-                             .map(booksOrchestratorService::newBook)
-                             .map(BookDiplomat::fromBook)
-                             .findFirst()
-                             .orElseThrow(() -> new RuntimeException("unable to save book"));
+                .map(booksOrchestratorService::newBook)
+                .map(BookDiplomat::fromBook)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("unable to save book"));
 
         LOGGER.info(String.format("Accepting new Book request: %s", book));
         return Response.status(201)
-                       .entity(book)
-                       .build();
+                .entity(book)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response updateBook(@PathParam("id") Integer index, BookDTO book) {
+    public Response updateBook(
+            @PathParam("id")
+                    Integer index, BookDTO book) {
         BookDTO bookDTO = booksOrchestratorService.replaceBook(index, book);
         return Response.ok(bookDTO)
-                       .build();
+                .build();
     }
 }

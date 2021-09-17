@@ -24,11 +24,14 @@ public class BookDTO {
     private UUID id;
 
     @NotBlank
-    @Length(min = 3, message = "Book name has to have at least 3 letters.")
+    @Length(min = 3,
+            message = "Book name has to have at least 3 letters.")
     private String name;
 
-    @NotBlank
+    //@NotBlank
     private String author;
+
+    private String author_id;
 
     private Optional<LocalDateTime> releaseDate;
 

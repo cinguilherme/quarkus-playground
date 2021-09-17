@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
@@ -23,11 +25,15 @@ import java.util.UUID;
 @Data
 @ToString
 @EqualsAndHashCode
+@Indexed
 public class Book extends PanacheEntityBase {
+
 
     @Id
     @GeneratedValue
     public UUID id;
+
+    @FullTextField(analyzer = "english")
     public String name;
 
     @ManyToOne
